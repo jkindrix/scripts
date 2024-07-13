@@ -25,41 +25,45 @@
 #                       INFO    (default) Show informational messages.
 #                       WARN    Show warning messages.
 #                       ERROR   Show error messages.
-#                       DEBUG  Show debug messages.
+#                       DEBUG   Show debug messages.
 #
 # Note: Ensure the script has the necessary permissions to run and access required directories.
 # ------------------------------------------------------------------------------
 
 set -euo pipefail
 
+# Constants for color codes
+readonly COLOR_RESET="\033[0m"
+readonly COLOR_INFO="\033[1;32m"
+readonly COLOR_WARN="\033[1;33m"
+readonly COLOR_ERROR="\033[1;31m"
+readonly COLOR_DEBUG="\033[1;34m"
+
 # Default verbosity level
 verbosity="INFO"
 
 # Function to display the help message
 show_help() {
-    cat << EOF
-Usage: $(basename "$0") [OPTIONS]
-
-Options:
-  -n, --dry-run     Dry run mode. Show which files would be deleted without actually deleting them.
-  -h, --help        Show this help message and exit.
-  -v level          Set verbosity level. Options are:
-                      INFO    (default) Show informational messages.
-                      WARN    Show warning messages.
-                      ERROR   Show error messages.
-                      DEBUG   Show debug messages.
-
-Description:
-  This script processes files in the specified directory and deletes those that are not referenced in any markdown files. 
-
-Examples:
-  $(basename "$0") -n
-      Run the script in dry run mode, showing which files would be deleted.
-
-  $(basename "$0") -v DEBUG
-      Run the script with debug verbosity, showing detailed information about the script's operation.
-
-EOF
+    echo "Usage: $(basename "$0") [OPTIONS]"
+    echo ""
+    echo "Options:"
+    echo "  -n, --dry-run     Dry run mode. Show which files would be deleted without actually deleting them."
+    echo "  -h, --help        Show this help message and exit."
+    echo "  -v level          Set verbosity level. Options are:"
+    echo "                      INFO    (default) Show informational messages."
+    echo "                      WARN    Show warning messages."
+    echo "                      ERROR   Show error messages."
+    echo "                      DEBUG   Show debug messages."
+    echo ""
+    echo "Description:"
+    echo "  This script processes files in the specified directory and deletes those that are not referenced in any markdown files."
+    echo ""
+    echo "Examples:"
+    echo "  $(basename "$0") -n"
+    echo "      Run the script in dry run mode, showing which files would be deleted."
+    echo ""
+    echo "  $(basename "$0") -v DEBUG"
+    echo "      Run the script with debug verbosity, showing detailed information about the script's operation."
 }
 
 # Function to URL encode a string
@@ -107,13 +111,13 @@ log() {
     # Proceed if the log level is within the verbosity threshold
     if [[ ${levels[$level]} -le ${levels[$verbosity]} ]]; then
         case "$level" in
-            INFO) color="\033[1;32m" ;;  # Green
-            WARN) color="\033[1;33m" ;;  # Yellow
-            ERROR) color="\033[1;31m" ;; # Red
-            DEBUG) color="\033[1;34m" ;; # Blue
-            *) color="\033[0m" ;;        # Default color
+            INFO) color="$COLOR_INFO" ;;
+            WARN) color="$COLOR_WARN" ;;
+            ERROR) color="$COLOR_ERROR" ;;
+            DEBUG) color="$COLOR_DEBUG" ;;
+            *) color="$COLOR_RESET" ;;
         esac
-        echo -e "${color}[$level] $message\033[0m"
+        echo -e "${color}[$level] $message${COLOR_RESET}"
     fi
 }
 
@@ -181,7 +185,7 @@ process_files_in_directory() {
         filename=$(basename "$file")
 
         if ! is_file_referenced "$filename"; then
-            delete_file "$file" deleted_count_ref "$dry_run"
+            delete_file "$file" deleted_count_ref "$dry_run" || true
         fi
     done < <(find "$directory" -type f -print0)
 
