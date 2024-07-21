@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Ensure that the folder path is provided
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <folder_path>"
+    exit 1
+fi
+
+# Set the folder path from the argument
+folder_path="$1"
+
+# Check if the specified folder exists
+if [ ! -d "$folder_path" ]; then
+    echo "The specified folder does not exist: $folder_path"
+    exit 1
+fi
+
+# Use lsof to find processes that have files open in the specified folder
+echo "Searching for processes holding onto files in $folder_path ..."
+lsof +D "$folder_path"
+
+# Check the exit status of lsof to see if it found any processes
+if [ $? -eq 0 ]; then
+    echo "No processes found holding onto files in $folder_path."
+else
+    echo "Processes found holding onto files in $folder_path."
+fi

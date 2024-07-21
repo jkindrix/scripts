@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Check if the directory argument is provided
+if [ -z "$1" ]; then
+    echo "Usage: $0 <directory> [output_file]"
+    exit 1
+fi
+
+# Directory to search
+directory=$1
+
+# Output file (optional, defaults to output.txt)
+output_file=${2:-output.txt}
+
+# Create or empty the output file
+: > "$output_file"
+
+# Find and iterate over all files in the directory and its subdirectories
+find "$directory" -type f | while read -r file; do
+    {
+        echo "File: $file"
+        echo "-------------------------"
+        cat "$file"
+        echo "-------------------------"
+        echo
+    } >> "$output_file"
+done
+
+echo "Output written to $output_file"
