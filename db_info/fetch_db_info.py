@@ -24,6 +24,7 @@ def get_tables(engine):
     SELECT TABLE_SCHEMA, TABLE_NAME
     FROM INFORMATION_SCHEMA.TABLES
     WHERE TABLE_TYPE = 'BASE TABLE'
+    ORDER BY TABLE_SCHEMA, TABLE_NAME
     """
     try:
         tables = pd.read_sql(query, engine)
