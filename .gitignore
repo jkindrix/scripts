@@ -1,3 +1,4 @@
 *.json
 *.ini
 *.txt
+*_env
