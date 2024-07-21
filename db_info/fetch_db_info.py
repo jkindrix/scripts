@@ -5,7 +5,6 @@ import sys
 import argparse
 import configparser
 from sqlalchemy import create_engine
-import random
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -56,10 +55,19 @@ def fetch_table_info(engine, schema, table):
 def write_table_info(schema_df, sample_data_df, output_file, schema, table):
     try:
         with open(output_file, 'a') as f:
-            f.write(f"\n\nSchema for table {schema}.{table}:\n")
-            schema_df.to_csv(f, index=False)
-            f.write(f"\n\nSample data for table {schema}.{table}:\n")
-            sample_data_df.to_csv(f, index=False)
+            f.write(f"\n\n====================\n")
+            f.write(f"Table: {schema}.{table}\n")
+            f.write(f"====================\n\n")
+            
+            f.write("Schema:\n")
+            f.write(schema_df.to_string(index=False))
+            f.write("\n\nSample Data:\n")
+            if not sample_data_df.empty:
+                f.write(sample_data_df.to_string(index=False))
+            else:
+                f.write("No data available.")
+            f.write("\n\n")
+            
         logger.info(f"Data for table {schema}.{table} written to {output_file} successfully.")
     except Exception as e:
         logger.error(f"Error writing data to file for table {schema}.{table}: {e}")
@@ -87,7 +95,8 @@ def main():
 
     # Clear or create the output file
     with open(output_file, 'w') as f:
-        f.write("")
+        f.write("SQL Server Database Information\n")
+        f.write("===============================\n")
 
     for _, row in tables.iterrows():
         schema = row['TABLE_SCHEMA']
