@@ -63,3 +63,60 @@ database = your_database_name
 username = your_sql_username
 password = your_sql_password
 output_file = path/to/output.txt
+```
+
+Replace the placeholders with your actual SQL Server connection details and desired output file path.
+
+## Usage
+
+Run the script with the configuration file as an argument:
+
+```sh
+python fetch_db_info.py --config config.ini
+```
+
+### Example
+
+```sh
+python fetch_db_info.py --config config.ini
+```
+
+The script will connect to the specified SQL Server database, fetch schema information and sample data for all tables, and write the output to the specified file.
+
+## Output
+
+The output file will contain the schema and sample data for each table in a clean and human-readable format. Here’s an example of what the output might look like:
+
+```
+SQL Server Database Information
+===============================
+
+====================
+Table: dbo.Customers
+====================
+
+Schema:
+COLUMN_NAME  DATA_TYPE  IS_NULLABLE  CHARACTER_MAXIMUM_LENGTH
+CustomerID   int        NO           None
+Name         nvarchar   YES          255
+Email        nvarchar   YES          255
+
+Sample Data:
+CustomerID  Name         Email
+1           John Doe     john.doe@example.com
+2           Jane Smith   jane.smith@example.com
+
+...
+
+```
+
+## Logging
+
+The script uses Python's logging module to provide runtime information and debug messages. Logs are printed to the console.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+```
+
+This version should render properly on GitHub or any other markdown viewer.
