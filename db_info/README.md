@@ -117,6 +117,3 @@ The script uses Python's logging module to provide runtime information and debug
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-```
-
-This version should render properly on GitHub or any other markdown viewer.
