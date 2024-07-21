@@ -88,8 +88,8 @@ This repository is licensed under the MIT License. See the [LICENSE](LICENSE) fi
 
 If you have any questions, suggestions, or feedback, feel free to reach out:
 
-- GitHub: [yourusername](https://github.com/yourusername)
-- Email: youremail@example.com
+- GitHub: [jkindrix](https://github.com/jkindrix)
+- Email: jkindrix@gmail.com
 
 ---
 
