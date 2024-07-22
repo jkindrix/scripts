@@ -1,3 +1,27 @@
+#!/usr/bin/env python
+#==============================================================================
+#
+#          FILE: fetch_sql_info.py
+#
+#         USAGE: ./fetch_sql_info.py --config <config_file>
+#
+#   DESCRIPTION: This script fetches SQL Server database information including
+#                table schemas and sample data, and writes the information to
+#                an output file.
+#
+#       OPTIONS: --config <config_file> : Path to the configuration file
+#  REQUIREMENTS: Must be run in a Python environment with access to the required
+#                packages and a valid configuration file.
+#         NOTES: Ensure the configuration file contains all required parameters.
+#        AUTHOR: Justin Kindrix, jkindrix@gmail.com
+#  ORGANIZATION: None
+#       CREATED: 2024-07-21
+#      REVISION: 1.0
+#       LICENSE: MIT License. See LICENSE file in the project root for full 
+#                license information.
+#
+#==============================================================================
+
 import pyodbc
 import pandas as pd
 import logging
