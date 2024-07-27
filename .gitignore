@@ -2,3 +2,4 @@
 *.ini
 *.txt
 *_env
+*.log
